@@ -70,24 +70,41 @@ var degrees = {
   x: 0,
   y: 0,
   z: 0,
+  a: 0,
+  b: 0
 };
+var tl = 0;
+var fvl = 0;
+var tvl = 0;
+var alp = 0;
+var bet = 0;
+const params = {
+    tl: 0,
+    tvl: 0,
+    fvl: 0
+}
+gui.add(params, "tl").name("TL").onFinishChange(function (value) {
+    tl = value;
+    calc()
+});
 
 gui
   .add(degrees, "x")
-  .name("Inc To Hori")
+  .name("Theta")
   .min(0)
   .max(90)
   .step(1)
   // This function is called each time the value is changed
   .onChange(() => {
-    console.log(degrees.x);
+    // console.log(degrees.x);
 
     // Convert the degrees to radians, then assign to mesh rotation
     cylinder.rotation.x = THREE.MathUtils.degToRad(90-degrees.x);
+    calc()
   });
 gui
   .add(degrees, "z")
-  .name("Inc To Vert")
+  .name("phi")
   .min(0)
   .max(90)
   .step(1)
@@ -95,9 +112,45 @@ gui
   .onChange(() => {
     // Convert the degrees to radians, then assign to mesh rotation
     cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z-180);
+    calc()
+  });
+  gui
+  .add(degrees, "a")
+  .name("alpha")
+  .min(0)
+  .max(90)
+  .step(1)
+  .listen()
+  // This function is called each time the value is changed
+  .onChange(() => {
+    // Convert the degrees to radians, then assign to mesh rotation
+    alp = degrees.z
+    calc()
+  });
+  gui
+  .add(degrees, "b")
+  .name("beta")
+  .min(0)
+  .max(90)
+  .step(1)
+  .listen()
+  // This function is called each time the value is changed
+  .onChange(() => {
+    // Convert the degrees to radians, then assign to mesh rotation
+    bet = degrees.z
+    calc()
   });
 // gui.add(cylinder.position, "y", 0,10,0.01);
 scene.add(cylinder);
+gui.add(params, "fvl").name("FVL").listen().onFinishChange(function (value) {
+    fvl = value;
+    calc()
+});
+gui.add(params, "tvl").name("TVL").listen().onFinishChange(function (value) {
+    tvl = value;
+    calc()
+});
+
 
 const sizes = {
   width: window.innerWidth,
@@ -174,16 +227,29 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-/**
- * Animate
- */
+const calc = () => {
+    // console.log(tl);
+    // console.log(tvl);
+    // console.log(fvl);
+    // console.log(alp)
+    // console.log(bet)
+    // console.log(90-THREE.MathUtils.radToDeg(cylinder.rotation.x))
+    // console.log(180+THREE.MathUtils.radToDeg(cylinder.rotation.z))
 
-document.addEventListener("mousemove", animateheight);
-
-let mouseY = 0;
-
-function animateheight(event) {
-  mouseY = event.clientY;
+    tvl = tl * Math.cos((90-THREE.MathUtils.radToDeg(cylinder.rotation.x)) * Math.PI/180)
+    fvl = tl * Math.cos((180+THREE.MathUtils.radToDeg(cylinder.rotation.z)) * Math.PI/180)
+    // console.log("TVL", tvl)
+    // console.log("FVL", fvl)
+    let h1 = tl * Math.sin((90-THREE.MathUtils.radToDeg(cylinder.rotation.x)) * Math.PI/180)
+    let h2 = tl * Math.sin((180+THREE.MathUtils.radToDeg(cylinder.rotation.z)) * Math.PI/180)
+    alp = Math.asin(h1/fvl)
+    bet = Math.asin(h2/tvl)
+    // console.log(alp * 180 / Math.PI)
+    // console.log(bet * 180/ Math.PI)
+    params.tvl = tvl
+    params.fvl = fvl
+    degrees.a = alp * 180/Math.PI
+    degrees.b = bet * 180/Math.PI
 }
 
 const clock = new THREE.Clock();
@@ -191,12 +257,8 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  // Update objects
-  // plane.rotation.z = .5 * elapsedTime
-  // plane.material.displacementScale = .3 + mouseY * 0.0008
-
-  // Update Orbital Controls
-  // controls.update()
+    // Update Orbital Controls
+    //   controls.update()
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.BasicShadowMap;
   // Render
