@@ -65,6 +65,7 @@ const cylinder = new THREE.Mesh(cgeometry, cmaterial);
 cylinder.position.y = 3;
 cylinder.castShadow = true;
 cylinder.receiveShadow = false;
+cylinder.rotation.set(THREE.MathUtils.degToRad(90), 0, 0)
 var degrees = {
   x: 0,
   y: 0,
