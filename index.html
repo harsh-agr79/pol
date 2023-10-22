@@ -28,14 +28,18 @@
         font-size: 12px;
         font-weight: 200;
       }
+      @media screen and (max-width: 600px) {
+        .container{
+            font-size: 8px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Harsh Agarwal</h1>
-      <span>Scroll to Move Forward or backwards</span><br>
+      <span>Scroll(PC) to Move <br> Forward or backwards</span><br>
       <span>Click And Drag to Rotate The view</span><br>
-      <span>Not Compatible With Mobile</span><br>
     </div>
     <div>
       <canvas class="webgl"></canvas>
