@@ -154,14 +154,15 @@ var obj = {
 };
 
 gui.add(obj, "fv").name("Front View");
-var obj = {
+
+var obj2 = {
   tv: function () {
     camera.position.set(0, 10, 0);
-    camera.rotation.set(-Math.PI / 2, 0, 0);
+    camera.rotation.set(-Math.PI / 2, 0, -Math.PI / 2);
   },
 };
 
-gui.add(obj, "tv").name("TOP View");
+gui.add(obj2, "tv").name("TOP View");
 controls.update();
 
 /**
