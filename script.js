@@ -74,28 +74,26 @@ var degrees = {
 gui
   .add(degrees, "x")
   .name("Inc To Hori")
-  .min(-180)
-  .max(180)
+  .min(0)
+  .max(90)
   .step(1)
   // This function is called each time the value is changed
   .onChange(() => {
     console.log(degrees.x);
 
     // Convert the degrees to radians, then assign to mesh rotation
-    cylinder.rotation.x = THREE.MathUtils.degToRad(degrees.x);
+    cylinder.rotation.x = THREE.MathUtils.degToRad(90-degrees.x);
   });
 gui
   .add(degrees, "z")
   .name("Inc To Vert")
-  .min(-180)
-  .max(180)
+  .min(0)
+  .max(90)
   .step(1)
   // This function is called each time the value is changed
   .onChange(() => {
-    console.log(degrees.x);
-
     // Convert the degrees to radians, then assign to mesh rotation
-    cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z);
+    cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z-180);
   });
 // gui.add(cylinder.position, "y", 0,10,0.01);
 scene.add(cylinder);
