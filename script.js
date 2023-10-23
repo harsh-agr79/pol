@@ -114,42 +114,42 @@ gui
     cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z-180);
     calc()
   });
-  // gui
-  // .add(degrees, "a")
-  // .name("alpha")
-  // .min(0)
-  // .max(90)
-  // .step(1)
-  // .listen()
-  // // This function is called each time the value is changed
-  // .onChange(() => {
-  //   // Convert the degrees to radians, then assign to mesh rotation
-  //   alp = degrees.z
-  //   calc()
-  // });
-  // gui
-  // .add(degrees, "b")
-  // .name("beta")
-  // .min(0)
-  // .max(90)
-  // .step(1)
-  // .listen()
-  // // This function is called each time the value is changed
-  // .onChange(() => {
-  //   // Convert the degrees to radians, then assign to mesh rotation
-  //   bet = degrees.z
-  //   calc()
-  // });
+  gui
+  .add(degrees, "a")
+  .name("alpha")
+  .min(0)
+  .max(90)
+  .step(1)
+  .listen()
+  // This function is called each time the value is changed
+  .onChange(() => {
+    // Convert the degrees to radians, then assign to mesh rotation
+    alp = degrees.z
+    calc()
+  });
+  gui
+  .add(degrees, "b")
+  .name("beta")
+  .min(0)
+  .max(90)
+  .step(1)
+  .listen()
+  // This function is called each time the value is changed
+  .onChange(() => {
+    // Convert the degrees to radians, then assign to mesh rotation
+    bet = degrees.z
+    calc()
+  });
 // gui.add(cylinder.position, "y", 0,10,0.01);
 scene.add(cylinder);
-// gui.add(params, "fvl").name("FVL").listen().onFinishChange(function (value) {
-//     fvl = value;
-//     calc()
-// });
-// gui.add(params, "tvl").name("TVL").listen().onFinishChange(function (value) {
-//     tvl = value;
-//     calc()
-// });
+gui.add(params, "fvl").name("FVL").listen().onFinishChange(function (value) {
+    fvl = value;
+    calc()
+});
+gui.add(params, "tvl").name("TVL").listen().onFinishChange(function (value) {
+    tvl = value;
+    calc()
+});
 
 
 const sizes = {
