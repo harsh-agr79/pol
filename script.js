@@ -62,7 +62,8 @@ plane2.receiveShadow = true;
 const cgeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 32);
 const cmaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinder = new THREE.Mesh(cgeometry, cmaterial);
-cylinder.position.y = 3;
+cylinder.position.y = 0.5;
+cgeometry.translate(0,2.5,0)
 cylinder.castShadow = true;
 cylinder.receiveShadow = false;
 cylinder.rotation.set(THREE.MathUtils.degToRad(90), 0, 0)
@@ -111,45 +112,45 @@ gui
   // This function is called each time the value is changed
   .onChange(() => {
     // Convert the degrees to radians, then assign to mesh rotation
-    cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z-180);
+    cylinder.rotation.z = THREE.MathUtils.degToRad(degrees.z);
     calc()
   });
-  gui
-  .add(degrees, "a")
-  .name("alpha")
-  .min(0)
-  .max(90)
-  .step(1)
-  .listen()
-  // This function is called each time the value is changed
-  .onChange(() => {
-    // Convert the degrees to radians, then assign to mesh rotation
-    alp = degrees.z
-    calc()
-  });
-  gui
-  .add(degrees, "b")
-  .name("beta")
-  .min(0)
-  .max(90)
-  .step(1)
-  .listen()
-  // This function is called each time the value is changed
-  .onChange(() => {
-    // Convert the degrees to radians, then assign to mesh rotation
-    bet = degrees.z
-    calc()
-  });
+  // gui
+  // .add(degrees, "a")
+  // .name("alpha")
+  // .min(0)
+  // .max(90)
+  // .step(1)
+  // .listen()
+  // // This function is called each time the value is changed
+  // .onChange(() => {
+  //   // Convert the degrees to radians, then assign to mesh rotation
+  //   alp = degrees.z
+  //   calc()
+  // });
+  // gui
+  // .add(degrees, "b")
+  // .name("beta")
+  // .min(0)
+  // .max(90)
+  // .step(1)
+  // .listen()
+  // // This function is called each time the value is changed
+  // .onChange(() => {
+  //   // Convert the degrees to radians, then assign to mesh rotation
+  //   bet = degrees.z
+  //   calc()
+  // });
 // gui.add(cylinder.position, "y", 0,10,0.01);
 scene.add(cylinder);
-gui.add(params, "fvl").name("FVL").listen().onFinishChange(function (value) {
-    fvl = value;
-    calc()
-});
-gui.add(params, "tvl").name("TVL").listen().onFinishChange(function (value) {
-    tvl = value;
-    calc()
-});
+// gui.add(params, "fvl").name("FVL").listen().onFinishChange(function (value) {
+//     fvl = value;
+//     calc()
+// });
+// gui.add(params, "tvl").name("TVL").listen().onFinishChange(function (value) {
+//     tvl = value;
+//     calc()
+// });
 
 
 const sizes = {
@@ -233,19 +234,21 @@ const calc = () => {
     // console.log(fvl);
     // console.log(alp)
     // console.log(bet)
-    // console.log(90-THREE.MathUtils.radToDeg(cylinder.rotation.x))
-    // console.log(180+THREE.MathUtils.radToDeg(cylinder.rotation.z))
+    console.log(90-THREE.MathUtils.radToDeg(cylinder.rotation.x))
+    console.log(THREE.MathUtils.radToDeg(cylinder.rotation.z))
 
     tvl = tl * Math.cos((90-THREE.MathUtils.radToDeg(cylinder.rotation.x)) * Math.PI/180)
-    fvl = tl * Math.cos((180+THREE.MathUtils.radToDeg(cylinder.rotation.z)) * Math.PI/180)
+    fvl = tl * Math.cos(cylinder.rotation.z)
     // console.log("TVL", tvl)
     // console.log("FVL", fvl)
     let h1 = tl * Math.sin((90-THREE.MathUtils.radToDeg(cylinder.rotation.x)) * Math.PI/180)
-    let h2 = tl * Math.sin((180+THREE.MathUtils.radToDeg(cylinder.rotation.z)) * Math.PI/180)
+    let h2 = tl * Math.sin(cylinder.rotation.z)
+    // console.log(h1/fvl)
+    // console.log(h2/tvl)
     alp = Math.asin(h1/fvl)
     bet = Math.asin(h2/tvl)
-    // console.log(alp * 180 / Math.PI)
-    // console.log(bet * 180/ Math.PI)
+    // console.log(h1)
+    // console.log(h2)
     params.tvl = tvl
     params.fvl = fvl
     degrees.a = alp * 180/Math.PI
