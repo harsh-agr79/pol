@@ -1,9 +1,54 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.117.1/build/three.module.js";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.117.1/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/loaders/GLTFLoader.js";
 
 const gui = new dat.GUI();
 
 const loader = new THREE.TextureLoader();
+// const gltfloader = new GLTFLoader();
+
+// gltfloader.load( '/scene.gltf', function ( gltf ) {
+//   const material = new THREE.MeshBasicMaterial({ color: 0xff0000, metalness: 1, roughness: 0, wireframe: true });
+//   // gltf.scene.traverse(function(node) {
+//   //   if (node.isMesh) {
+//   //     node.material = material;
+//   //   }
+//   // });
+//     gltf.scene.traverse((node) => {
+//       if (!node.isMesh) return;
+//       node.material = material
+//       // node.material.wireframe = true;
+//       // node.material.wireframeLinewidth = 100;
+//     });
+//   gltf.scene.scale.set(0.2, 0.3, 0.2); 
+//   gltf.scene.position.set(0,5.4,-3)
+//   gltf.scene.rotation.set(Math.PI * 0.7, Math.PI , 0)
+//   gltf.scene.castShadow = true
+// 	scene.add( gltf.scene );
+// }, undefined, function ( error ) {
+// 	console.error( error );
+// } );
+// gltfloader.load( '/scene.gltf', function ( gltf ) {
+//   const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+//   // gltf.scene.traverse(function(node) {
+//   //   if (node.isMesh) {
+//   //     node.material = material;
+//   //   }
+//   // });
+//     gltf.scene.traverse((node) => {
+//       if (!node.isMesh) return;
+//       node.material = material
+//       // node.material.wireframe = true;
+//       // node.material.wireframeLinewidth = 100;
+//     });
+//   gltf.scene.scale.set(0.2, 0.3, 0.2); 
+//   gltf.scene.position.set(0,5.4,-3)
+//   gltf.scene.rotation.set(Math.PI * 0.7, Math.PI , 0)
+//   gltf.scene.castShadow = true
+// 	scene.add( gltf.scene );
+// }, undefined, function ( error ) {
+// 	console.error( error );
+// } );
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -63,8 +108,8 @@ const cgeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 32);
 const cmaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const cylinder = new THREE.Mesh(cgeometry, cmaterial);
 cylinder.position.y = 3;
-cylinder.castShadow = true;
-cylinder.receiveShadow = false;
+cylinder.castShadow = false;
+// cylinder.receiveShadow = true;
 cylinder.rotation.set(THREE.MathUtils.degToRad(90), 0, 0)
 var degrees = {
   x: 0,
@@ -175,16 +220,11 @@ window.addEventListener("resize", () => {
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(
-  75,
-  sizes.width / sizes.height,
-  0.1,
-  100
-);
-camera.position.x = -12;
-camera.position.y = 3;
-camera.position.z = 7;
-// camera.rotation.set(0, -Math.PI / 2, 0);
+const camera = new THREE.OrthographicCamera( sizes.width / - 100, sizes.width / 100, sizes.height / 100, sizes.height / - 100, 1, 100000 )
+camera.position.x = 0;
+camera.position.y = 20;
+camera.position.z = 0;
+camera.rotation.set(0, -Math.PI / 2, 0);
 // scene.add(camera)
 
 // Controls
